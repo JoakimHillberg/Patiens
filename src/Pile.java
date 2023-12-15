@@ -8,4 +8,7 @@ public class Pile {
     public Pile(ArrayList<Card> cards) {
         this.cards = cards;
     }
+
+    // Methods
+
 }

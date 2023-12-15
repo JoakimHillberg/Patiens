@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class Game {
     // Attributes
     private Deck myDeck;
+    private ArrayList<MainPile> piles;
 
     // Constructor
     public Game() {
@@ -25,6 +26,11 @@ public class Game {
         }
 
         myDeck = new Deck(cards);
-        System.out.println(myDeck.cards.size());
+    }
+
+    public void generateBoard() {
+        for (int i = 0; i < 7; i++) {
+
+        }
     }
 }
