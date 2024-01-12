@@ -5,6 +5,4 @@ public class DiscardPile extends Pile {
     public DiscardPile(ArrayList<Card> cards) {
         super(cards);
     }
-
-    // Methods
 }

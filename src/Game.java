@@ -1,10 +1,12 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Game {
     // Attributes
     private Deck myDeck;
     private ArrayList<MainPile> piles;
+    ArrayList<MainPile> mainPiles = new ArrayList<>();
 
     // Constructor
     public Game() {
@@ -14,11 +16,12 @@ public class Game {
     // Methods
     public void start() {
         generateDeck();
+        generateBoard();
     }
 
     public void generateDeck() {
         ArrayList<Card> cards = new ArrayList<>();
-        String[] colors = {"diamonds", "hearts", "clubs", "spades"};
+        String[] colors = {"♢", "♡", "♣", "♠"};
 
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 13; j++) {
@@ -30,8 +33,6 @@ public class Game {
     }
 
     public void generateBoard() {
-        ArrayList<MainPile> mainPiles = new ArrayList<>();
-
         for (int i = 1; i < 8; i++) {
             ArrayList<Card> mainCards = new ArrayList<>();
 
@@ -43,6 +44,17 @@ public class Game {
             }
 
             mainPiles.add(new MainPile(mainCards));
+        }
+    }
+
+    public int tryParse(String input) {
+        try {
+            int number = Integer.parseInt(input);
+            return number;
+        }
+        catch(Exception e) {
+            System.out.println("That is not an index of a list.");
+            return -1;
         }
     }
 }
