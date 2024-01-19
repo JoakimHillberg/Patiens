@@ -4,9 +4,17 @@ import java.util.Scanner;
 
 public class Game {
     // Attributes
+    private Scanner myScan = new Scanner(System.in);
     private Deck myDeck;
+    private StockPile myDrawPile = new StockPile(new ArrayList<>(), this);
     private ArrayList<MainPile> piles;
-    ArrayList<MainPile> mainPiles = new ArrayList<>();
+    private ArrayList<MainPile> mainPiles = new ArrayList<>();
+    private ArrayList<DiscardPile> discardPiles = new ArrayList<>();
+    private String[] menu = {
+            "Draw card",
+            "Discard card",
+            "Move card",
+    };
 
     // Constructor
     public Game() {
@@ -15,8 +23,39 @@ public class Game {
 
     // Methods
     public void start() {
+        boolean over = false;
         generateDeck();
         generateBoard();
+
+        while (!over) {
+            printMenu();
+            String response = myScan.nextLine();
+
+            switch (response) {
+                case "1":
+                    myDeck.moveCard();
+                    break;
+
+                case "2":
+                    break;
+
+                case "3":
+                    break;
+
+                default:
+                    System.out.println("That is not an option on the menu.");
+                    break;
+            }
+
+        }
+    }
+
+    public void printMenu() {
+        for (int i = 0; i < menu.length; i++) {
+            System.out.println((i + 1) + ": " + menu[i]);
+        }
+
+        System.out.print("Input what to do: ");
     }
 
     public void generateDeck() {
@@ -29,7 +68,7 @@ public class Game {
             }
         }
 
-        myDeck = new Deck(cards);
+        myDeck = new Deck(cards, this);
     }
 
     public void generateBoard() {
@@ -43,18 +82,29 @@ public class Game {
                 myDeck.cards.remove(randomNr);
             }
 
-            mainPiles.add(new MainPile(mainCards));
+            mainPiles.add(new MainPile(mainCards, this));
+        }
+
+        for (int i = 0; i < 4; i++) {
+            discardPiles.add(new DiscardPile(new ArrayList<>(), this));
         }
     }
 
-    public int tryParse(String input) {
-        try {
-            int number = Integer.parseInt(input);
-            return number;
-        }
-        catch(Exception e) {
-            System.out.println("That is not an index of a list.");
-            return -1;
-        }
+    public String cardToString(Card selectedCard) {
+        String card = selectedCard.getNr() + selectedCard.getColor();
+        card.replace("11","J");
+        card.replace("12","D");
+        card.replace("13","K");
+        card.replace("1","A");
+        return card;
+    }
+
+    public void printBoard() {
+
+    }
+
+    // Getters and Setters
+    public StockPile getMyDrawPile() {
+        return myDrawPile;
     }
 }
