@@ -9,13 +9,13 @@ public class Deck extends Pile {
     @Override
     public void moveCard() {
         Card topCard = this.cards.get(this.cards.size() - 1);
-        myGame.getMyDrawPile().cards.add(topCard);
+        myGame.getMyStockPile().cards.add(topCard);
         this.cards.remove(topCard);
 
         if (this.cards.size() == 0) {
-            for (int i = 0; i < myGame.getMyDrawPile().cards.size(); i++) {
-                this.cards.add(myGame.getMyDrawPile().cards.get(0));
-                myGame.getMyDrawPile().cards.remove(0);
+            for (int i = 0; i < myGame.getMyStockPile().cards.size(); i++) {
+                this.cards.add(myGame.getMyStockPile().cards.get(0));
+                myGame.getMyStockPile().cards.remove(0);
             }
         }
     }
