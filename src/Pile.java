@@ -30,6 +30,10 @@ public class Pile {
         }
 
         if (moveIsValid(pileNr, startTopCard)) {
+            if (this.cards.size() > 1) {
+                this.cards.get(this.cards.indexOf(startTopCard) - 1).setHidden(false);
+            }
+
             myGame.getMainPiles().get(pileNr - 1).cards.add(startTopCard);
             this.cards.remove(startTopCard);
         }

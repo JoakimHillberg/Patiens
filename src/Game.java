@@ -98,7 +98,7 @@ public class Game {
 
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 13; j++) {
-                cards.add(new Card(j + 1, colors[i]));
+                cards.add(new Card(j + 1, colors[i], true));
             }
         }
 
@@ -115,6 +115,10 @@ public class Game {
                 int randomNr = generator.nextInt(0, myDeck.cards.size());
                 mainCards.add(myDeck.cards.get(randomNr));
                 myDeck.cards.remove(randomNr);
+
+                if (j + 1 == i) {
+                    mainCards.get(j).setHidden(false);
+                }
             }
 
             mainPiles.add(new MainPile(mainCards, this));
@@ -130,17 +134,24 @@ public class Game {
             return selectedPile.cards.get(selectedPile.cards.size() - 1);
         }
         else {
-            return new Card(0, "0");
+            return new Card(0, "0", false);
         }
     }
 
     public String cardToString(Card selectedCard) {
         String card = selectedCard.getNr() + selectedCard.getColor();
-        card = card.replace("10","T");
-        card = card.replace("11","J");
-        card = card.replace("12","Q");
-        card = card.replace("13","K");
-        card = card.replace("1","A");
+
+        if (selectedCard.isHidden()) {
+            card = "XX";
+        }
+        else {
+            card = card.replace("10","T");
+            card = card.replace("11","J");
+            card = card.replace("12","Q");
+            card = card.replace("13","K");
+            card = card.replace("1","A");
+        }
+
         return card;
     }
 
@@ -158,7 +169,7 @@ public class Game {
     }
 
     public void printBoard() {
-        System.out.print("XX " + cardToString(getTopCard(myStockPile)));
+        System.out.print(cardToString(getTopCard(myDeck)) + " " + cardToString(getTopCard(myStockPile)));
         System.out.print("    " + cardToString(getTopCard(discardPiles.get(0))));
         System.out.print(" " + cardToString(getTopCard(discardPiles.get(1))));
         System.out.print(" " + cardToString(getTopCard(discardPiles.get(2))));
@@ -168,12 +179,13 @@ public class Game {
         for (int i = 0; i < largestPile.cards.size(); i++) {
             for (int j = 0; j < 7; j++) {
                 if (mainPiles.get(j).cards.size() >= i + 1) {
-                    if (mainPiles.get(j).cards.size() == i + 1) {
-                        System.out.print(cardToString(mainPiles.get(j).cards.get(i)) + " ");
+                    System.out.print(cardToString(mainPiles.get(j).cards.get(i)) + " ");
+                    /*if (mainPiles.get(j).cards.size() == i + 1) {
+
                     }
                     else {
                         System.out.print("XX ");
-                    }
+                    }*/
                 }
                 else {
                     System.out.print("   ");
