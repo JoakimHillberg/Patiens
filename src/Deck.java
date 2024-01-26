@@ -6,9 +6,10 @@ public class Deck extends Pile {
         super(cards, myGame);
     }
 
+    // Methods
     @Override
     public void moveCard() {
-        Card topCard = this.cards.get(this.cards.size() - 1);
+        Card topCard = myGame.getTopCard(this);
         myGame.getMyStockPile().cards.add(topCard);
         this.cards.remove(topCard);
 

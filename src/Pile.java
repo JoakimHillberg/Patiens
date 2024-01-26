@@ -3,19 +3,6 @@ import java.util.Scanner;
 
 public class Pile {
     // Attributes
-    private String[] piles = {"Main1",
-                              "Main2",
-                              "Main3",
-                              "Main4",
-                              "Main5",
-                              "Main6",
-                              "Main7",
-                              "Discard♢",
-                              "Discard♡",
-                              "Discard♣",
-                              "Discard♠",
-    };
-
     private Scanner myScan = new Scanner(System.in);
     protected Game myGame;
     protected ArrayList<Card> cards;
@@ -28,38 +15,47 @@ public class Pile {
 
     // Method
     public void moveCard() {
-        Card startTopCard = this.cards.get(this.cards.size() - 1);
+        Card startTopCard = myGame.getTopCard(this);
 
-        for (int i = 0; i < piles.length; i++) {
-            System.out.println((i + 1) + ": " + piles[i]);
+        for (int i = 0; i < myGame.getPiles().length - 1; i++) {
+            System.out.println((i + 1) + ": " + myGame.getPiles()[i]);
         }
 
         System.out.print("Input index of pile to move card to: ");
-        String pile = myScan.nextLine();
-        int pileNr = tryParse(myScan.nextLine());
+        int pileNr = myGame.tryParse(myScan.nextLine());
 
+        while (pileNr < 1 || pileNr > 7) {
+            System.out.print("Must input a valid index of a pile: ");
+            pileNr = myGame.tryParse(myScan.nextLine());
+        }
+
+        if (moveIsValid(pileNr, startTopCard)) {
+            myGame.getMainPiles().get(pileNr - 1).cards.add(startTopCard);
+            this.cards.remove(startTopCard);
+        }
+        else {
+            System.out.println("That move is not valid.");
+        }
     }
 
-    public boolean checkMove(int pileNr, Card startTopCard) {
+    public boolean moveIsValid(int pileNr, Card startTopCard) {
         boolean validMove = false;
 
-        System.out.print("That is not a pile, input what pile to move the card to: ");
-        pileNr = tryParse(myScan.nextLine());
-
-        if (pileNr > 1 || pileNr < 11) {
-            validMove = true;
+        MainPile targetPile = myGame.getMainPiles().get(pileNr - 1);
+        if (startTopCard.getNr() == myGame.getTopCard(targetPile).getNr() - 1) {
+            String targetCardColor = myGame.getTopCard(targetPile).getColor();
+            if (targetCardColor.equals("♡") || targetCardColor.equals("♢")) {
+                if (startTopCard.getColor().equals("♣") || startTopCard.getColor().equals("♠")) {
+                    validMove = true;
+                }
+            }
+            else {
+                if (startTopCard.getColor().equals("♡") || startTopCard.getColor().equals("♢")) {
+                    validMove = true;
+                }
+            }
         }
 
         return validMove;
-    }
-
-    public int tryParse(String input) {
-        try {
-            return Integer.parseInt(input);
-        }
-        catch(Exception e) {
-            System.out.println("That is not an index of a pile.");
-            return -1;
-        }
     }
 }

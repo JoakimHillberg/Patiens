@@ -1,19 +1,27 @@
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Game {
     // Attributes
     private Scanner myScan = new Scanner(System.in);
     private Deck myDeck;
     private StockPile myStockPile = new StockPile(new ArrayList<>(), this);
-    private ArrayList<MainPile> piles;
     private ArrayList<MainPile> mainPiles = new ArrayList<>();
     private ArrayList<DiscardPile> discardPiles = new ArrayList<>();
     private String[] menu = {
             "Draw card",
             "Stock card",
             "Move card",
+            "Quit",
+    };
+    private String[] piles = {
+            "Main1",
+            "Main2",
+            "Main3",
+            "Main4",
+            "Main5",
+            "Main6",
+            "Main7",
+            "StockPile"
     };
 
     // Constructor
@@ -26,12 +34,6 @@ public class Game {
         boolean over = false;
         generateDeck();
         generateBoard();
-        /*System.out.println("┌A♢───┐");
-        System.out.println("┌─────┐");
-        System.out.println("|2    |");
-        System.out.println("|  ♢  |");
-        System.out.println("|    2|");
-        System.out.println("└─────┘");*/
 
         while (!over) {
             printBoard();
@@ -47,6 +49,31 @@ public class Game {
                     break;
 
                 case "3":
+                    int selectedPileNr = 0;
+                    while (selectedPileNr > 8 || selectedPileNr < 1) {
+                        for (int i = 0; i < piles.length; i++) {
+                            System.out.println((i + 1) + ": " + piles[i]);
+                        }
+
+                        System.out.print("Input pile to move card from: ");
+                        selectedPileNr = tryParse(myScan.nextLine());
+
+                        if (selectedPileNr > 8 || selectedPileNr < 1) {
+                            System.out.println("That is not a valid pile nr.");
+                        }
+                    }
+
+                    if (selectedPileNr == 8) {
+                        myStockPile.moveCard();
+                    }
+                    else {
+                        mainPiles.get(selectedPileNr - 1).moveCard();
+                    }
+                    break;
+
+                case "4":
+                    System.out.println("Quitting game");
+                    over = true;
                     break;
 
                 default:
@@ -76,6 +103,7 @@ public class Game {
         }
 
         myDeck = new Deck(cards, this);
+        Collections.shuffle(myDeck.cards);
     }
 
     public void generateBoard() {
@@ -155,8 +183,26 @@ public class Game {
         }
     }
 
+    public int tryParse(String input) {
+        try {
+            return Integer.parseInt(input);
+        }
+        catch(Exception e) {
+            System.out.println("That is not an index of a pile.");
+            return -1;
+        }
+    }
+
     // Getters and Setters
     public StockPile getMyStockPile() {
         return myStockPile;
+    }
+
+    public ArrayList<MainPile> getMainPiles() {
+        return mainPiles;
+    }
+
+    public String[] getPiles() {
+        return piles;
     }
 }

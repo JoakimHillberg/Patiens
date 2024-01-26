@@ -5,4 +5,6 @@ public class StockPile extends Pile {
     public StockPile(ArrayList<Card> cards, Game myGame) {
         super(cards, myGame);
     }
+
+    // Methods
 }
