@@ -7,13 +7,14 @@ public class Game {
     private StockPile myStockPile = new StockPile(new ArrayList<>(), this);
     private ArrayList<MainPile> mainPiles = new ArrayList<>();
     private ArrayList<DiscardPile> discardPiles = new ArrayList<>();
+    private String[] colors = {"♢", "♡", "♣", "♠"};
     private String[] menu = {
             "Draw card",
-            "Stock card",
+            "Discard card",
             "Move card",
             "Quit",
     };
-    private String[] piles = {
+    private String[] pileList = {
             "Main1",
             "Main2",
             "Main3",
@@ -40,19 +41,38 @@ public class Game {
             printMenu();
             String response = myScan.nextLine();
 
+            int selectedPileNr = 0;
             switch (response) {
                 case "1":
-                    myDeck.moveCard();
+                    myDeck.drawCard();
                     break;
 
                 case "2":
+                    while (selectedPileNr > 8 || selectedPileNr < 1) {
+                        for (int i = 0; i < pileList.length; i++) {
+                            System.out.println((i + 1) + ": " + pileList[i]);
+                        }
+
+                        System.out.print("Input pile to discard top card from: ");
+                        selectedPileNr = tryParse(myScan.nextLine());
+
+                        if (selectedPileNr > 8 || selectedPileNr < 1) {
+                            System.out.println("That is not a valid pile nr.");
+                        }
+                    }
+
+                    if (selectedPileNr == 8) {
+                        myStockPile.discardCard();
+                    }
+                    else {
+                        mainPiles.get(selectedPileNr - 1).discardCard();
+                    }
                     break;
 
                 case "3":
-                    int selectedPileNr = 0;
                     while (selectedPileNr > 8 || selectedPileNr < 1) {
-                        for (int i = 0; i < piles.length; i++) {
-                            System.out.println((i + 1) + ": " + piles[i]);
+                        for (int i = 0; i < pileList.length; i++) {
+                            System.out.println((i + 1) + ": " + pileList[i]);
                         }
 
                         System.out.print("Input pile to move card from: ");
@@ -94,7 +114,6 @@ public class Game {
 
     public void generateDeck() {
         ArrayList<Card> cards = new ArrayList<>();
-        String[] colors = {"♢", "♡", "♣", "♠"};
 
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 13; j++) {
@@ -214,7 +233,15 @@ public class Game {
         return mainPiles;
     }
 
-    public String[] getPiles() {
-        return piles;
+    public String[] getPileList() {
+        return pileList;
+    }
+
+    public ArrayList<DiscardPile> getDiscardPiles() {
+        return discardPiles;
+    }
+
+    public String[] getColors() {
+        return colors;
     }
 }

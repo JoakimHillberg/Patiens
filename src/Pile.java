@@ -17,8 +17,8 @@ public class Pile {
     public void moveCard() {
         Card startTopCard = myGame.getTopCard(this);
 
-        for (int i = 0; i < myGame.getPiles().length - 1; i++) {
-            System.out.println((i + 1) + ": " + myGame.getPiles()[i]);
+        for (int i = 0; i < myGame.getPileList().length - 1; i++) {
+            System.out.println((i + 1) + ": " + myGame.getPileList()[i]);
         }
 
         System.out.print("Input index of pile to move card to: ");
@@ -46,7 +46,10 @@ public class Pile {
         boolean validMove = false;
 
         MainPile targetPile = myGame.getMainPiles().get(pileNr - 1);
-        if (startTopCard.getNr() == myGame.getTopCard(targetPile).getNr() - 1) {
+        if (targetPile.cards.isEmpty() && startTopCard.getNr() == 13) {
+            validMove = true;
+        }
+        else if (startTopCard.getNr() == myGame.getTopCard(targetPile).getNr() - 1) {
             String targetCardColor = myGame.getTopCard(targetPile).getColor();
             if (targetCardColor.equals("♡") || targetCardColor.equals("♢")) {
                 if (startTopCard.getColor().equals("♣") || startTopCard.getColor().equals("♠")) {
@@ -61,5 +64,29 @@ public class Pile {
         }
 
         return validMove;
+    }
+
+    public void discardCard() {
+        Card selectedCard = myGame.getTopCard(this);
+
+        if (this.cards.isEmpty()) {
+            System.out.println("There are no cards in that pile.");
+        }
+
+        for (int i = 0; i < myGame.getDiscardPiles().size(); i++) {
+            if (myGame.getColors()[i].equals(selectedCard.getColor())) {
+                boolean correctFirstCard = myGame.getDiscardPiles().get(i).cards.isEmpty() && selectedCard.getNr() == 1;
+                boolean correctNextCard = (myGame.getTopCard(myGame.getDiscardPiles().get(i)).getNr() == selectedCard.getNr() - 1);
+
+                if (correctFirstCard || correctNextCard) {
+                    myGame.getDiscardPiles().get(i).cards.add(selectedCard);
+                    this.cards.remove(selectedCard);
+                    myGame.getTopCard(this).setHidden(false);
+                }
+                else {
+                    System.out.println("That card cannot be discarded right now.");
+                }
+            }
+        }
     }
 }

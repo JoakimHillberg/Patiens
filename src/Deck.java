@@ -7,19 +7,19 @@ public class Deck extends Pile {
     }
 
     // Methods
-    @Override
-    public void moveCard() {
+    public void drawCard() {
+        if (this.cards.isEmpty()) {
+            int size = myGame.getMyStockPile().cards.size();
+            for (int i = 0; i < size; i++) {
+                myGame.getTopCard(myGame.getMyStockPile()).setHidden(true);
+                this.cards.add(myGame.getTopCard(myGame.getMyStockPile()));
+                myGame.getMyStockPile().cards.remove(myGame.getTopCard(myGame.getMyStockPile()));
+            }
+        }
+
         Card topCard = myGame.getTopCard(this);
         topCard.setHidden(false);
         myGame.getMyStockPile().cards.add(topCard);
         this.cards.remove(topCard);
-
-        if (this.cards.size() == 0) {
-            for (int i = 0; i < myGame.getMyStockPile().cards.size(); i++) {
-                myGame.getMyStockPile().cards.get(0).setHidden(true);
-                this.cards.add(myGame.getMyStockPile().cards.get(0));
-                myGame.getMyStockPile().cards.remove(0);
-            }
-        }
     }
 }
