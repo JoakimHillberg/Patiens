@@ -1,3 +1,5 @@
+/* Den klass som kör hela programmet.
+   När "new Game()" körs i main startar spelet och alla kort och spelplanen genereras. */
 import java.util.*;
 
 public class Game {
@@ -15,14 +17,14 @@ public class Game {
             "Quit",
     };
     private String[] pileList = {
-            "Main1",
-            "Main2",
-            "Main3",
-            "Main4",
-            "Main5",
-            "Main6",
-            "Main7",
-            "StockPile"
+            "Column 1",
+            "Column 2",
+            "Column 3",
+            "Column 4",
+            "Column 5",
+            "Column 6",
+            "Column 7",
+            "Hand"
     };
 
     // Constructor
@@ -31,6 +33,9 @@ public class Game {
     }
 
     // Methods
+    // Den metod som kör hela spelet.
+    // Består av en While-loop som loopar en Switch tills användaren antingen vunnit eller väljer quit.
+    // Den Switch som metoden har innehåller de olika val som finns på menyn.
     public void start() {
         boolean over = false;
         generateDeck();
@@ -71,6 +76,7 @@ public class Game {
 
                 case "3":
                     while (selectedPileNr > 8 || selectedPileNr < 1) {
+                        printBoard();
                         for (int i = 0; i < pileList.length; i++) {
                             System.out.println((i + 1) + ": " + pileList[i]);
                         }
@@ -84,10 +90,20 @@ public class Game {
                     }
 
                     if (selectedPileNr == 8) {
-                        myStockPile.moveCard();
+                        if (!myStockPile.cards.isEmpty()) {
+                            myStockPile.moveTopCard();
+                        }
+                        else {
+                            System.out.println("That pile i empty.");
+                        }
                     }
                     else {
-                        mainPiles.get(selectedPileNr - 1).moveCard();
+                        if (!mainPiles.get(selectedPileNr - 1).cards.isEmpty()) {
+                            mainPiles.get(selectedPileNr - 1).selectAndMoveStack();
+                        }
+                        else {
+                            System.out.println("That pile is empty.");
+                        }
                     }
                     break;
 
@@ -101,9 +117,20 @@ public class Game {
                     break;
             }
 
+            int discardCount = 0;
+
+            for (int i = 0; i < discardPiles.size(); i++) {
+                discardCount += discardPiles.get(i).cards.size();
+            }
+
+            if (discardCount == 52) {
+                System.out.println("Congratulations, you won!");
+                over = true;
+            }
         }
     }
 
+    // En metod som skriver ut menyn så att spelaren ser vad de kan välja att göra.
     public void printMenu() {
         for (int i = 0; i < menu.length; i++) {
             System.out.println((i + 1) + ": " + menu[i]);
@@ -112,6 +139,8 @@ public class Game {
         System.out.print("Input what to do: ");
     }
 
+    // En metod som genererar kortleken genom två for-loopar som går genom alla nummer för alla färger.
+    // När korten genereras placeras de i Deck.
     public void generateDeck() {
         ArrayList<Card> cards = new ArrayList<>();
 
@@ -125,6 +154,9 @@ public class Game {
         Collections.shuffle(myDeck.cards);
     }
 
+    // En metod som slumpar vilka kort som ska placeras ut i alla MainPiles.
+    // Mängden kort går från 1-7 i de sju högarna.
+    // När ett kort läggs i en MainPile tas det bort från Deck.
     public void generateBoard() {
         for (int i = 1; i < 8; i++) {
             ArrayList<Card> mainCards = new ArrayList<>();
@@ -148,6 +180,7 @@ public class Game {
         }
     }
 
+    // En metod som plockar skickar vilket kort som finns högst upp i den hög som skickas in.
     public Card getTopCard(Pile selectedPile) {
         if (!selectedPile.cards.isEmpty()) {
             return selectedPile.cards.get(selectedPile.cards.size() - 1);
@@ -157,6 +190,8 @@ public class Game {
         }
     }
 
+    // En metod som tar emot ett kort och omvandlar dess nr och color till en String.
+    // Den String som skickas tillbaka består endast av 2 tecken(ett för färg och ett för nr).
     public String cardToString(Card selectedCard) {
         String card = selectedCard.getNr() + selectedCard.getColor();
 
@@ -174,6 +209,7 @@ public class Game {
         return card;
     }
 
+    // En metod som tar emot en ArrayList med MainPiles och skickar tillbaka den Pile som har flest antal kort i.
     public Pile getLargestMainPile(ArrayList<MainPile> pileList) {
         int largestCardCount = -1;
         Pile largestPile = new Pile(null, this);
@@ -187,6 +223,7 @@ public class Game {
         return largestPile;
     }
 
+    // En metod som skriver ut hela spelplanen så att spelaren ser hur den ser ut.
     public void printBoard() {
         System.out.print(cardToString(getTopCard(myDeck)) + " " + cardToString(getTopCard(myStockPile)));
         System.out.print("    " + cardToString(getTopCard(discardPiles.get(0))));
@@ -199,12 +236,6 @@ public class Game {
             for (int j = 0; j < 7; j++) {
                 if (mainPiles.get(j).cards.size() >= i + 1) {
                     System.out.print(cardToString(mainPiles.get(j).cards.get(i)) + " ");
-                    /*if (mainPiles.get(j).cards.size() == i + 1) {
-
-                    }
-                    else {
-                        System.out.print("XX ");
-                    }*/
                 }
                 else {
                     System.out.print("   ");
@@ -214,6 +245,8 @@ public class Game {
         }
     }
 
+    // En metod som tar emot en String och försöker översätta den till en int.
+    // Om det sker ett error med att översätta då det inte går skickar den tillbaka -1.
     public int tryParse(String input) {
         try {
             return Integer.parseInt(input);

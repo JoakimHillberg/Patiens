@@ -1,3 +1,6 @@
+/* Ett Card som har en siffra(1-13) och en färg(♢, ♡, ♣ eller ♠)
+   Card har även en boolean som berättar om användaren borde kunna se kortet eller inte.
+   Värdet på boolean beror på vilken hög kortet befinner sig i. */
 public class Card {
     // Attributes
     private int nr;

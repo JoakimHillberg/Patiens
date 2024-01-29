@@ -1,3 +1,6 @@
+/* En subclass till Pile med en ArrayList där alla kort som inte placeras ut på planen startar.
+   Det är Deck som spelaren drar kort ifrån som placeras i handen.
+   Spelaren kan inte se några av de kort som finns i Deck.*/
 import java.util.ArrayList;
 
 public class Deck extends Pile {
@@ -7,6 +10,8 @@ public class Deck extends Pile {
     }
 
     // Methods
+    // Metod som tar ett kort ur Deck(drahögen) och placerar det i Stockpile(handen).
+    // Om Deck är tomt tas alla kort från StockPile och placeras tillbaka i Deck i samma ordning som tidigare.
     public void drawCard() {
         if (this.cards.isEmpty()) {
             int size = myGame.getMyStockPile().cards.size();
