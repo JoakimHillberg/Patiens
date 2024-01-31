@@ -252,7 +252,6 @@ public class Game {
             return Integer.parseInt(input);
         }
         catch(Exception e) {
-            System.out.println("That is not an index of a pile.");
             return -1;
         }
     }
