@@ -1,6 +1,6 @@
-/* En subclass till Pile där kort placeras när spelaren lägger undan de(discard).
-   Här sorteras kort med varje färg i en egen DiscardPile från ess till kung för att vinna.
-   Spelaren kan endast se det kortet som finns högst upp i varje DiscardPile. */
+/* A subclass for Pile where a Card the player discards ends up.
+   Here Cards are sorted by color for each DiscardPile from ace to king to win.
+   The player can only see the Card at the top of every DiscardPile. */
 import java.util.ArrayList;
 
 public class DiscardPile extends Pile {

@@ -1,5 +1,5 @@
-/* Superclass till alla olika Piles.
-   Innehåller en ArrayList med de kort som högen innehåller. */
+/* Superclass for all types of Piles.
+   Contains an ArrayList with all the Cards that are in the Pile. */
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,10 +16,10 @@ public class Pile {
     }
 
     // Method
-    // En metod som flyttar det kort som skickas in från denna Pile till den som spelaren väljer.
-    // Om användaren flyttar flera kort är selectedCard det som är längst ned av de.
-    // När ett kort flyttas ändras kortet som var under så att hidden = false.
-    // Om spelaren försöker flytta ett kort där hidden = true blir det ett invalid move.
+    // A method that moves a selected Card from this Pile to the one the player chooses.
+    // If the player wants to move more than one card, selectedCard is the one at the bottom of that small pile.
+    // When a Card is moved the Card beneath is changed so that hidden = false.
+    // The player cannot move a Card where the attribute hidden = true.
     public void moveCard(Card selectedCard) {
         myGame.printBoard();
         for (int i = 0; i < myGame.getPileList().length - 1; i++) {
@@ -49,9 +49,9 @@ public class Pile {
         }
     }
 
-    // En metod som kontrollerar om ett förflyttning är giltig.
-    // Blir giltig om korten alternerar färg och kortet som flyttas är 1 lägre än det som är under.
-    // Om en MainPile är tom är det även giltigt att placera en kung(nr 13) på denna MainPile.
+    // A method that controls if a given move is valid.
+    // Is valid if the Pile alternates colors and the number beneath is 1 digit higher.
+    // If a MainPile is empty it is also valid to place a king(nr 13) on that MainPile.
     public boolean moveIsValid(int pileNr, Card startTopCard) {
         boolean validMove = false;
 
@@ -76,10 +76,10 @@ public class Pile {
         return validMove;
     }
 
-    // En metod som tar det kort som är högst upp i denna hög och försöker placera det på motsvarande DiscardPile.
-    // Kortet flyttas till DiscardPile för dess specifika färg om dess nr är 1 högre än det kort som  redan är i DiscardPilen.
-    // Om högen är tom behöver ett ess placeras på den.
-    // Kontrollerar även om högen spelaren försöker flytta från är tom och säger om den är det.
+    // A method that takes the Card on the top of the Pile that calls the method and tries to send it to the same colored DiscardPile.
+    // The Card is sent to the DiscardPile for its specific color if the number is 1 higher than the Card currently on top of the DiscardPile.
+    // If the DiscardPile is empty it needs an ace placed on it.
+    // Also says if the player is trying to move a Card from an empty Pile.
     public void discardCard() {
         Card selectedCard = myGame.getTopCard(this);
 

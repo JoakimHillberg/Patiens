@@ -1,6 +1,6 @@
-/* En subclass till Pile där alla kort slumpas ut i början av spelet(sju stycken).
-   I början ser spelaren bara det kortet som finns högst upp.
-   Under spelet ser spelaren även de kort som de flyttat mellan högarna. */
+/* A subclass for Pile that makes up the board with seven MainPiles where random Cards are placed.
+   At the start the player only sees the Card at the top of each MainPile.
+   During the game the player also sees the Cards that they have moved. */
 import java.util.ArrayList;
 
 public class MainPile extends Pile {
@@ -10,8 +10,8 @@ public class MainPile extends Pile {
     }
 
     // Methods
-    // Metod som frågar användaren hur många kort de vill flytta från denna MainPile.
-    // Tar kortet på botten av de användaren vill flytta och skickar in  det i moveCard() metoden.
+    // Method that asks the player how many Cards they want to move from MainPile.
+    // Takes the Card at the bottom of the Pile player wants to send and calls the moveCard() method.
     public void selectAndMoveStack() {
         Card selectedCard;
         System.out.print("Input how many cards to take from the top och the pile: ");

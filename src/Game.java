@@ -33,9 +33,9 @@ public class Game {
     }
 
     // Methods
-    // Den metod som kör hela spelet.
-    // Består av en While-loop som loopar en Switch tills användaren antingen vunnit eller väljer quit.
-    // Den Switch som metoden har innehåller de olika val som finns på menyn.
+    // The method that stars the game when it runs.
+    // Contains a While-loop that loops a Switch until the player wins or quits the game.
+    // The Switch in the method contains the different options on the menu.
     public void start() {
         boolean over = false;
         generateDeck();
@@ -130,7 +130,7 @@ public class Game {
         }
     }
 
-    // En metod som skriver ut menyn så att spelaren ser vad de kan välja att göra.
+    // A method that prints the menu so the player knows what the options are.
     public void printMenu() {
         for (int i = 0; i < menu.length; i++) {
             System.out.println((i + 1) + ": " + menu[i]);
@@ -139,8 +139,8 @@ public class Game {
         System.out.print("Input what to do: ");
     }
 
-    // En metod som genererar kortleken genom två for-loopar som går genom alla nummer för alla färger.
-    // När korten genereras placeras de i Deck.
+    // A method that generates the Deck with two for-loopar that together go through all numbers for the four colors.
+    // When the Cards are generated they are placed in Deck.
     public void generateDeck() {
         ArrayList<Card> cards = new ArrayList<>();
 
@@ -154,9 +154,9 @@ public class Game {
         Collections.shuffle(myDeck.cards);
     }
 
-    // En metod som slumpar vilka kort som ska placeras ut i alla MainPiles.
-    // Mängden kort går från 1-7 i de sju högarna.
-    // När ett kort läggs i en MainPile tas det bort från Deck.
+    // A method that randomly generates what Cards end up in the MainPiles.
+    // The amount of Cards in each Pile increases from 1 in the first to 7 in the last.
+    // Cards are removed from Deck when placed in a MainPile.
     public void generateBoard() {
         for (int i = 1; i < 8; i++) {
             ArrayList<Card> mainCards = new ArrayList<>();
@@ -180,7 +180,7 @@ public class Game {
         }
     }
 
-    // En metod som plockar skickar vilket kort som finns högst upp i den hög som skickas in.
+    // A method that picks out and sends back the Card on the top of the Pile that is sent in.
     public Card getTopCard(Pile selectedPile) {
         if (!selectedPile.cards.isEmpty()) {
             return selectedPile.cards.get(selectedPile.cards.size() - 1);
@@ -190,8 +190,8 @@ public class Game {
         }
     }
 
-    // En metod som tar emot ett kort och omvandlar dess nr och color till en String.
-    // Den String som skickas tillbaka består endast av 2 tecken(ett för färg och ett för nr).
+    // A method that takes in a Card and converts its nr and color to a String.
+    // The returned String only contains 2 characters(one for color and one for nr).
     public String cardToString(Card selectedCard) {
         String card = selectedCard.getNr() + selectedCard.getColor();
 
@@ -209,7 +209,7 @@ public class Game {
         return card;
     }
 
-    // En metod som tar emot en ArrayList med MainPiles och skickar tillbaka den Pile som har flest antal kort i.
+    // A method that takes and ArrayList with MainPiles and returns the Pile with the most Cards.
     public Pile getLargestMainPile(ArrayList<MainPile> pileList) {
         int largestCardCount = -1;
         Pile largestPile = new Pile(null, this);
@@ -223,7 +223,7 @@ public class Game {
         return largestPile;
     }
 
-    // En metod som skriver ut hela spelplanen så att spelaren ser hur den ser ut.
+    // A method that prints out the whole board for the player.
     public void printBoard() {
         System.out.print(cardToString(getTopCard(myDeck)) + " " + cardToString(getTopCard(myStockPile)));
         System.out.print("    " + cardToString(getTopCard(discardPiles.get(0))));
@@ -245,8 +245,8 @@ public class Game {
         }
     }
 
-    // En metod som tar emot en String och försöker översätta den till en int.
-    // Om det sker ett error med att översätta då det inte går skickar den tillbaka -1.
+    // A method takes a String and tries to use parseint() to make it an int.
+    // If there is an error in the parseint() it sends back -1 otherwise it sends the number.
     public int tryParse(String input) {
         try {
             return Integer.parseInt(input);

@@ -1,6 +1,6 @@
-/* Ett Card som har en siffra(1-13) och en färg(♢, ♡, ♣ eller ♠)
-   Card har även en boolean som berättar om användaren borde kunna se kortet eller inte.
-   Värdet på boolean beror på vilken hög kortet befinner sig i. */
+/* A Card that has a number(1-13) and a color(♢, ♡, ♣ eller ♠)
+   Card also has a boolean that says if the player should be able to see the card or not.
+   The value of the boolean depends on what Pile the Card is in. */
 public class Card {
     // Attributes
     private int nr;

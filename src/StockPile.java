@@ -1,6 +1,6 @@
-/* En subclass till Pile som är användarens hand.
-   När användaren drar kort så hamnar de i den ArrayList som StockPile har.
-   Spelaren ser alltid nr och färg på det kort som finns högst upp i StockPile*/
+/* A subclass for Pile that is the players hand.
+   When the player pulls a card it ends up in the ArrayList that StockPile(this class) has.
+   The player always sees the Card at the top of the StockPile */
 import java.util.ArrayList;
 
 public class StockPile extends Pile {
@@ -10,7 +10,7 @@ public class StockPile extends Pile {
     }
 
     // Methods
-    // Ta kortet som finns högst upp i StockPilen och skicka in det till moveCard() metoden.
+    // Take the Card at the top of StockPile and calls the moveCard() method in Pile.
     public void moveTopCard() {
         moveCard(myGame.getTopCard(this));
     }
