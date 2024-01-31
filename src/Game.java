@@ -139,7 +139,7 @@ public class Game {
         System.out.print("Input what to do: ");
     }
 
-    // A method that generates the Deck with two for-loopar that together go through all numbers for the four colors.
+    // A method that generates the Deck with two for-loops that together go through all numbers for the four colors.
     // When the Cards are generated they are placed in Deck.
     public void generateDeck() {
         ArrayList<Card> cards = new ArrayList<>();
