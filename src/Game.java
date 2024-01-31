@@ -1,5 +1,5 @@
-/* Den klass som kör hela programmet.
-   När "new Game()" körs i main startar spelet och alla kort och spelplanen genereras. */
+/* The class that contains the main code for the program.
+   When "new Game()" runs in main the start() method runs to start the game. */
 import java.util.*;
 
 public class Game {
